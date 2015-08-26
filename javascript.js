@@ -9,7 +9,7 @@ $(document).ready(function(){
             .keyup(function(){inputLimitDisplay(this, 16)})
             .keyup(function(){passwordMatching(this)});
 
-  $('input[type=submit]').click(validations);
+  $('input[type=submit]').click(function(){validations(this)});
 
   var inputLimitDisplay = function(e, maxChar){
     e = $(e);
@@ -43,14 +43,21 @@ $(document).ready(function(){
     }
   };
 
-  var validations = function(){
+  var validations = function(e){
     //preventDefault()
     console.log('in validations');
-    if($('#first_input').val().length < 4 &&
+    if($('#first_input').val().length < 4 ||
         $('#first_input').val().length > 32) {
-      $('#first_input').parent().addClass('errors');
-      $('errors').text('Input muset be between 4-32 characters');
-    }
+      console.log("in if");
+      event.preventDefault();
+      $('#first_input').addClass('errors');
+      $('#first_input').parent().append('<span class="errors">Input must be between 4-32 characters</span>');
+    };
   };
 
+  var validationRules = {
+    field = "first_input";
+    message = "Input must be between 4-32 characters";
+    rule = function()
+  }
 });
