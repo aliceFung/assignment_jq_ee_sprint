@@ -61,3 +61,42 @@ $(document).ready(function(){
     rule = function()
   }
 });
+
+First psuedocode, then write in JavaScript, a function to find the first nonrepeated character in a string. Return
+null if all the characters repeat.
+
+Think about time complexity. What would happen if you passed your function a whole paragraph of text?
+
+firstNonRepeatedChar("total");
+//=> "o"
+
+firstNonRepeatedChar("teeter");
+//=> "r"
+
+firstNonRepeatedChar("deed");
+//=> null
+
+//For each character
+//If not in ineligible
+//If in parsed false
+
+var repeatedChar = function(text) {
+  var eligible = [];
+  var ineligible = [];
+  for (var i = 0; i < text.length, i++) {
+    if (!inelible.include(text[i])) {
+      if (eligible.include(text[i])) {
+        ineligible.push(eligible.splice(eligible.indexOf(text[i])));
+      }
+      else {
+        eligible.push(text[i]);
+      };
+    };
+  };
+  if (eligible.length === 0) {
+    return null;
+  }
+  else {
+    return elibible[0];
+  }
+}
