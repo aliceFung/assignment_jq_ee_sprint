@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+
   //listener for text input field
 
   $('#first_input').keyup(function(){inputLimitDisplay(this, 32)});
@@ -10,6 +11,42 @@ $(document).ready(function(){
             .keyup(function(){passwordMatching(this)});
 
   $('input[type=submit]').click(function(){validations()});
+
+  $('.drop-down').hover(
+    function() {},
+    function() {slideUpAll(this);}
+    );
+
+  $('#drop-down-first').mouseenter(function()
+          { slideDownAll( $('.drop-down')[0]) } );
+
+  $('li').hover(function(){ $(this).addClass("hover");},
+                 function(){ $(this).removeClass("hover");}
+                 );
+
+  $('li').click(function(){swapSelection(this)});
+
+  var swapSelection = function(element){
+    $('ul').children().first().text($(element).text());
+    // $('.drop-down').off("hover");
+    // slideUpAll($('#drop-down'));
+  }
+
+  var slideDownAll = function(parent) {
+    console.log(parent);
+    for (var i = 1; i < parent.children.length; i++) {
+      $(parent.children[i]).slideDown(500);
+      $(parent.children[i]).removeClass('hidden');
+    }
+  };
+
+  var slideUpAll = function(parent) {
+    for (var i = 1; i < parent.children.length; i++) {
+      $(parent.children[i]).slideUp(500);
+      // $(parent.children[i]).addClass('hidden');
+    }
+  };
+
 
   var inputLimitDisplay = function(e, maxChar){
     e = $(e);
@@ -44,32 +81,40 @@ $(document).ready(function(){
   };
 
   var validations = function(){
-    //preventDefault()
     input_divs = $('form').children();
-    for(var i= 0; i < input_divs.length; i++){
-      var child_node = $(input_divs[i].children[0])
-      console.log("c_n: " + child_node);
+    for(var i = 0; i < input_divs.length; i++){
+      var child_node = $(input_divs[i].children[0]);
       var c_id = child_node.attr("id"); // string of js obj
-      console.log("c_id: " + c_id);
       var child = checkvalidations[c_id];
-      console.log(child + " " + !!child);
-      if(!!child) {
-        console.log("in if statement" + !!child);
-        if(child.if_statement()){
+
+      if(child && child.if_statement()) {
         event.preventDefault();
-        child.addClass('errors');
-        child.parent().append(child.message);
+        child_node.addClass('errors');
+        child_node.parent().append(child.message);
       }
-      }
-    } //for loop
+    }; //for loop
   };
 
   var checkvalidations = {
     "first_input": {
       field: "#first_input",
       message: "Input must be between 4-32 characters",
-      if_statement: function(){
-        return ($(this.field).val().length < 4 || $(this.field).val().length > 32);}
+      if_statement: function(){ return ($(this.field).val().length < 4 || $(this.field).val().length > 32);}
+    },
+    "second_input": {
+      field: "#second_input",
+      message: "Input must be between 4-140 characters",
+      if_statement: function(){ return ($(this.field).val().length < 4 || $(this.field).val().length > 140);}
+    },
+    "password": {
+      field: "#password",
+      message: "Input must be between 6-16 characters",
+      if_statement: function(){ return ($(this.field).val().length < 6 || $(this.field).val().length > 16);}
+    },
+    "password_confirmation": {
+      field: "#password_confirmation",
+      message: "Passwords do not match",
+      if_statement: function(){ return !($(this.field).val() === $("#password").val());}
     }
   };
 
