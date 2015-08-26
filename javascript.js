@@ -46,15 +46,20 @@ $(document).ready(function(){
   var validations = function(){
     //preventDefault()
     input_divs = $('form').children();
-    for(var i= 1; i < input_divs.length; i++){
+    for(var i= 0; i < input_divs.length; i++){
       var child_node = $(input_divs[i].children[0])
+      console.log("c_n: " + child_node);
       var c_id = child_node.attr("id"); // string of js obj
+      console.log("c_id: " + c_id);
       var child = checkvalidations[c_id];
-      // console.log(child + " " + child.if_statement());
-      if(!!child && child.if_statement()) {
+      console.log(child + " " + !!child);
+      if(!!child) {
+        console.log("in if statement" + !!child);
+        if(child.if_statement()){
         event.preventDefault();
         child.addClass('errors');
         child.parent().append(child.message);
+      }
       }
     } //for loop
   };
@@ -63,7 +68,8 @@ $(document).ready(function(){
     "first_input": {
       field: "#first_input",
       message: "Input must be between 4-32 characters",
-      if_statement: function(){ ($(this.field).val().length < 4 || $(this.field).val().length > 32);}
+      if_statement: function(){
+        return ($(this.field).val().length < 4 || $(this.field).val().length > 32);}
     }
   };
 
