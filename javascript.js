@@ -9,7 +9,30 @@ $(document).ready(function(){
             .keyup(function(){inputLimitDisplay(this, 16)})
             .keyup(function(){passwordMatching(this)});
 
-  $('input[type=submit]').click(function(){validations(this)});
+  $('li').hover(function(){ $(this).addClass("hover");},
+                 function(){ $(this).removeClass("hover");}
+                 );
+
+  $('input[type=submit]').click(function(){validations()});
+
+  $('.drop-down').hover(
+    function() {slideDownAll(this);},
+    function() {slideUpAll(this);}
+    );
+
+  var slideDownAll = function(parent) {
+
+    for (var i = 1; i < parent.children.length; i++) {
+      $(parent.children[i]).slideDown(1000);
+    }
+  }
+
+  var slideUpAll = function(parent) {
+    for (var i = 1; i < parent.children.length; i++) {
+      $(parent.children[i]).slideUp(1000);
+    }
+  }
+
 
   var inputLimitDisplay = function(e, maxChar){
     e = $(e);
@@ -43,60 +66,47 @@ $(document).ready(function(){
     }
   };
 
-  var validations = function(e){
+  var validations = function(){
     //preventDefault()
-    console.log('in validations');
-    if($('#first_input').val().length < 4 ||
-        $('#first_input').val().length > 32) {
-      console.log("in if");
-      event.preventDefault();
-      $('#first_input').addClass('errors');
-      $('#first_input').parent().append('<span class="errors">Input must be between 4-32 characters</span>');
-    };
-  };
-
-  var validationRules = {
-    field = "first_input";
-    message = "Input must be between 4-32 characters";
-    rule = function()
-  }
-});
-
-First psuedocode, then write in JavaScript, a function to find the first nonrepeated character in a string. Return
-null if all the characters repeat.
-
-Think about time complexity. What would happen if you passed your function a whole paragraph of text?
-
-firstNonRepeatedChar("total");
-//=> "o"
-
-firstNonRepeatedChar("teeter");
-//=> "r"
-
-firstNonRepeatedChar("deed");
-//=> null
-
-//For each character
-//If not in ineligible
-//If in parsed false
-
-var repeatedChar = function(text) {
-  var eligible = [];
-  var ineligible = [];
-  for (var i = 0; i < text.length, i++) {
-    if (!inelible.include(text[i])) {
-      if (eligible.include(text[i])) {
-        ineligible.push(eligible.splice(eligible.indexOf(text[i])));
+    input_divs = $('form').children();
+    for(var i = 0; i < input_divs.length; i++){
+      var child_node = $(input_divs[i].children[0]);
+      var c_id = child_node.attr("id"); // string of js obj
+      console.log(c_id);
+      var child = checkvalidations[c_id];
+      console.log(child);
+      // console.log(child + " " + child.if_statement());
+      console.log(child);
+      console.log(child.if_statement);
+      if(child && child.if_statement()) {
+        event.preventDefault();
+        child_node.addClass('errors');
+        child_node.parent().append(child.message);
       }
-      else {
-        eligible.push(text[i]);
-      };
-    };
+    } //for loop
   };
-  if (eligible.length === 0) {
-    return null;
-  }
-  else {
-    return elibible[0];
-  }
-}
+
+  var checkvalidations = {
+    "first_input": {
+      field: "#first_input",
+      message: "Input must be between 4-32 characters",
+      if_statement: function(){ return ($(this.field).val().length < 4 || $(this.field).val().length > 32);}
+    },
+    "second_input": {
+      field: "#second_input",
+      message: "Input must be between 4-140 characters",
+      if_statement: function(){ return ($(this.field).val().length < 4 || $(this.field).val().length > 140);}
+    },
+    "password": {
+      field: "#password",
+      message: "Input must be between 6-16 characters",
+      if_statement: function(){ return ($(this.field).val().length < 6 || $(this.field).val().length > 16);}
+    },
+    "password_confirmation": {
+      field: "#password_confirmation",
+      message: "Passwords do not match",
+      if_statement: function(){ return !($(this.field).val() === $("#password").val());}
+    }
+  };
+
+});
