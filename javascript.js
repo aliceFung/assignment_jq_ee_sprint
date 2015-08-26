@@ -9,7 +9,7 @@ $(document).ready(function(){
             .keyup(function(){inputLimitDisplay(this, 16)})
             .keyup(function(){passwordMatching(this)});
 
-  $('input[type=submit]').click(function(){validations(this)});
+  $('input[type=submit]').click(function(){validations()});
 
   var inputLimitDisplay = function(e, maxChar){
     e = $(e);
@@ -43,21 +43,28 @@ $(document).ready(function(){
     }
   };
 
-  var validations = function(e){
+  var validations = function(){
     //preventDefault()
-    console.log('in validations');
-    if($('#first_input').val().length < 4 ||
-        $('#first_input').val().length > 32) {
-      console.log("in if");
-      event.preventDefault();
-      $('#first_input').addClass('errors');
-      $('#first_input').parent().append('<span class="errors">Input must be between 4-32 characters</span>');
-    };
+    input_divs = $('form').children();
+    for(var i= 1; i < input_divs.length; i++){
+      var child_node = $(input_divs[i].children[0])
+      var c_id = child_node.attr("id"); // string of js obj
+      var child = checkvalidations[c_id];
+      // console.log(child + " " + child.if_statement());
+      if(!!child && child.if_statement()) {
+        event.preventDefault();
+        child.addClass('errors');
+        child.parent().append(child.message);
+      }
+    } //for loop
   };
 
-  var validationRules = {
-    field = "first_input";
-    message = "Input must be between 4-32 characters";
-    rule = function()
-  }
+  var checkvalidations = {
+    "first_input": {
+      field: "#first_input",
+      message: "Input must be between 4-32 characters",
+      if_statement: function(){ ($(this.field).val().length < 4 || $(this.field).val().length > 32);}
+    }
+  };
+
 });
