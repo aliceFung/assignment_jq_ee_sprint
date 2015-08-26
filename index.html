@@ -4,6 +4,13 @@
     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="javascript.js"></script>
   </head>
+
+  <style>
+  .errors {
+    border-color: red;
+  }
+  </style>
+
   <body>
     <form>
       <!-- max 32 char -->
@@ -14,8 +21,16 @@
       <div>
         <textarea id="second_input"></textarea>
       </div>
+
+      <div>
       <input type="text" id="password">
+      </div>
+
+      <div>
       <input type="text" id="password_confirmation">
+      </div>
+
+      <input type="submit" value="submit">
     </form>
   </body>
 </html>
