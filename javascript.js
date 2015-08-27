@@ -1,6 +1,40 @@
 $(document).ready(function(){
 
 
+  // Photo tagging
+
+  $('img').hover(function(){createTaggingBox();}, function(){destroyTaggingBox();});
+  $('img').click(function(){tagPicture();});
+
+  var tagPicture = function(){
+    $('#tag-box').addClass("tagged-picture").attr('id', '').css({
+      left: e.pageX - 75,
+      top: e.pageY - 75
+    });
+
+  };
+
+  var createTaggingBox = function() {
+    //create div
+    //set dimensions
+    //give border
+    //follow mouse
+
+    var $div = $("<div>", {id: "tag-box", class: "tag-box"})[0];
+    $('#tag-box').first().remove();
+    $('img').parent().prepend($div);
+    $(document).on('mousemove', function(e){
+      $('#tag-box').css({
+         left:  e.pageX - 75,
+         top:   e.pageY - 75
+    });
+  });
+};
+  var destroyTaggingBox = function() {
+    $('#tag-box').first().remove();
+  };
+
+
   //listener for text input field
 
   $('#first_input').keyup(function(){inputLimitDisplay(this, 32)});
@@ -12,8 +46,7 @@ $(document).ready(function(){
 
   $('input[type=submit]').click(function(){validations()});
 
-  $('.drop-down').hover(
-    function() {},
+  $('.drop-down').mouseleave(
     function() {slideUpAll(this);}
     );
 
@@ -29,7 +62,7 @@ $(document).ready(function(){
   var swapSelection = function(element){
     $('ul').children().first().text($(element).text());
     // $('.drop-down').off("hover");
-    // slideUpAll($('#drop-down'));
+    slideUpAll($('.drop-down')[0]);
   }
 
   var slideDownAll = function(parent) {
