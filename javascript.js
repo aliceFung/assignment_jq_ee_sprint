@@ -4,7 +4,22 @@ $(document).ready(function(){
   // Photo tagging
 
   $('img').hover(function(){createTaggingBox();}, function(){destroyTaggingBox();});
-  $('img').click(function(){tagPicture();});
+  $('img').on('click', function(e){dropDownMenu(e);});
+
+  var dropDownMenu = function(e){
+    e.stopPropagation();
+    // menu created
+    var list = "<ul id='dropdownmenu'><li></li><li class='hidden'>Ma</li><li class='hidden'>Pa</li> <li class='hidden'>kid</li></ul>";
+    $('#tag-box').parent().prepend(list);
+    $('#dropdownmenu').css({
+       left:  e.pageX,
+       top:   e.pageY + 75});
+    //slidedowna
+    slideDownAll($('#dropdownmenu')[0]);
+  };
+
+  //remove image tag menu
+  $(document).click(function(){$('#dropdownmenu')[0].remove();});
 
   var tagPicture = function(){
     $('#tag-box').addClass("tagged-picture").attr('id', '').css({
